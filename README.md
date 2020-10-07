@@ -13,7 +13,7 @@ DQV5 scripts for pentest and ctf
 
 ## other
 **zf.py**
-* python3 xx.py [端口] [生成文件名] [获取内容类型] [是否进行解码]
+* python3 zf.py [端口] [生成文件名] [获取内容类型] [是否进行解码]
 
 ## phpevil
 **base_convert.py**

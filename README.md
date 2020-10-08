@@ -22,5 +22,8 @@ DQV5 scripts for pentest and ctf
 **fuck.py**
 * 基于1次异或的非字母数字拼接
 
+**truefuck.py**
+* 基于jsfuck的拼接
+
 **math.py**
 * 基于数字以及运算符的拼接

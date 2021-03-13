@@ -63,7 +63,7 @@ class _Run(Thread):
 
         while not waitDict[self.thisName]:
             passwd = passContent.readline().decode()
-            if passwd.rsplit(pad,1)[1] == "":
+            if passwd.find(pad) > -1 and passwd.rsplit(pad,1)[1] == "":
                 passwd = passwd[:-len(pad)]
             passDict.update({self.thisName:passwd})
             if passwd != b'':

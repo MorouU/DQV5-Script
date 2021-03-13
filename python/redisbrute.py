@@ -18,7 +18,7 @@ class _List(list):
 
     def readline(self):
         try:
-            return self.pop(0)
+            return self.pop(0).encode()
         except IndexError:
             return b''
 
@@ -150,7 +150,7 @@ if __name__ == '__main__':
         @ waitTime = 每次爆破间隔(redis密码爆破需要许些时间监听端口判断是否成功认证)
 
     """
-    
+
     password = [
         "123",
         "123456",

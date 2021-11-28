@@ -12,6 +12,7 @@ class get_simple_soap{
 	
 		$cookie = array();
 		$headers = array();
+		$tags = array();
 		foreach($config['cookies'] as $key => $value){
 			array_push($cookie,$key.'='.$value);
 		}
@@ -21,12 +22,19 @@ class get_simple_soap{
 	
 		$params = http_build_query($config['params']);
 		$data = http_build_query($config['data']);
+		
 		$content_type = 'Content-Type: application/x-www-form-urlencoded';
 		$content_length = 'Content-Length: '.strlen($data);
-		$contents = join("\x0d\x0a",array($config['ua'],'Cookie: '.join(';',$cookie),join("\x0d\x0a",$headers),$content_type,$content_length))."\x0d\x0a\x0d\x0a".$data;
+
+		if(!empty($cookie)) array_push($tags,"Cookie:".join(';',$cookie));
+		if(!empty($headers)) array_push($tags,join("\x0d\x0a",$headers));
+		array_push($tags,$content_type,$content_length);
+		array_unshift($tags,$config['ua']);
+		
+		$contents = join("\x0d\x0a",$tags)."\x0d\x0a\x0d\x0a".$data;
 
 		$soap = new SoapClient(null, array(
-			'location' => $config['url'].'?'.$params,
+			'location' => $config['url'].($params?'?'.$params:''),
 			'user_agent' => $contents,
 			'uri' => '2333'
 		));
